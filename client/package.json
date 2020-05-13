@@ -14,7 +14,9 @@
   "dependencies": {
     "@nuxtjs/auth-next": "^5.0.0-1589207846.e8f33bf",
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.0.0"
+    "axios": "^0.19.2",
+    "nuxt": "^2.0.0",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@mdi/font": "^5.1.45",
