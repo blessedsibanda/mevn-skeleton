@@ -13,11 +13,13 @@
 
 ```
 cd server
+npm i
 yarn dev
 ```
 
 ```
 cd client
+npm i
 yarn dev
 ```
 
