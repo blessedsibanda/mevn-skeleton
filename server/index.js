@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const errorHandler = require('./middlewares/errorHandler');
 const config = require('./config');
 const authRoutes = require('./routes/auth');
+const usersRoutes = require('./routes/users');
 const passportJwt = require('./middlewares/passportJwt')();
 
 mongoose.Promise = global.Promise;
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passportJwt.initialize());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 
 app.use(errorHandler);
 app.listen(8000, () => {
