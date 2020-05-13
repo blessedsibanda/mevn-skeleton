@@ -5,7 +5,7 @@
         <v-card v-if="!loading" class="mx-auto">
           <v-card-title primary-title>{{user.name}}</v-card-title>
           <v-card-text>
-            <p>Joined on {{user.createdAt}}</p>
+            <p>Joined on {{ user.createdAt|formatDateTime }}</p>
           </v-card-text>
         </v-card>
         <div v-else>Loading...</div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   middleware: "auth",
   data() {
@@ -22,6 +23,11 @@ export default {
       user: null,
       loading: true
     };
+  },
+  filters: {
+    formatDateTime(value) {
+      return moment(value).format("LLL");
+    }
   },
   methods: {
     async getUser(id) {

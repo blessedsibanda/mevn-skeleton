@@ -5,13 +5,19 @@
       <h1>This is a private route for authenticated users only</h1>
       <h4>{{ $auth.user.name}}</h4>
       <h4>{{ $auth.user.email}}</h4>
-      <h4>{{ $auth.user.createdAt}}</h4>
+      <h4>{{ $auth.user.createdAt | formatDateTime}}</h4>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import moment from "moment";
 export default {
-  middleware: "auth"
+  middleware: "auth",
+  filters: {
+    formatDateTime(value) {
+      return moment(value).format("LLL");
+    }
+  }
 };
 </script>
