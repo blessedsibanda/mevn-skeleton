@@ -2,7 +2,7 @@
   <div class="mx-2">
     <v-layout justify-center>
       <v-flex xs12 sm10 md6>
-        <v-alert v-if="error" type="error" :value="true">{{error}}</v-alert>
+        <v-alert dense v-if="error" type="error" :value="true">{{error}}</v-alert>
         <v-form>
           <v-text-field
             label="Name"
@@ -131,15 +131,12 @@ export default {
   },
   methods: {
     async submit() {
-      return axios({
-        method: "post",
-        data: {
+      return this.$axios
+        .post("/api/auth/signup", {
           name: this.name,
           email: this.email,
           password: this.password
-        },
-        url: "http://localhost:8000/api/auth/signup"
-      })
+        })
         .then(() => {
           this.$router.push("/auth/signin");
         })

@@ -34,13 +34,13 @@ exports.signin = async (req, res, next) => {
 		// password is not selected by default so include it
 		const user = await User.findOne({ email }).select('+password');
 		if (!user) {
-			const error = new Error('Wrong credentials');
+			const error = new Error('Wrong login credentials');
 			error.statusCode = 401;
 			throw error;
 		}
 		const validPassword = await user.validPassword(password);
 		if (!validPassword) {
-			const error = new Error('Wrong credentials');
+			const error = new Error('Wrong login credentials');
 			error.statusCode = 401;
 			throw error;
 		}

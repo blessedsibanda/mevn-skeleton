@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 

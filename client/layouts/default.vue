@@ -2,27 +2,79 @@
   <v-app dark>
     <v-navigation-drawer v-model="drawer" :clipped="clipped" fixed app>
       <v-list>
-        <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
+        <v-list-item to="/">
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>mdi-home</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/users">
+          <v-list-item-action>
+            <v-icon>mdi-account-group-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Users</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <template v-if="$auth.loggedIn">
+          <v-list-item to="/private">
+            <v-list-item-action>
+              <v-icon>mdi-account-circle</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>My Profile</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="userAction">
+            <v-list-item-action>
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Sign Out</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+        <template v-else>
+          <v-list-item to="/auth/signin">
+            <v-list-item-action>
+              <v-icon>mdi-account-arrow-right</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Sign In</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/auth/signup">
+            <v-list-item-action>
+              <v-icon>mdi-account-plus</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Sign Up</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar color="primary" :clipped-left="clipped" fixed app>
+    <v-app-bar dense color="primary" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
+
       <v-spacer></v-spacer>
 
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn to="/" text>Home</v-btn>
+      </v-toolbar-items>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn to="/users" text>Users</v-btn>
       </v-toolbar-items>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn @click="userAction" text>{{ $auth.loggedIn ? 'Logout' : 'Login' }}</v-btn>
+        <v-btn @click="userAction" text>{{ $auth.loggedIn ? 'Sign Out' : 'Sign In' }}</v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items v-if="!$auth.loggedIn" class="hidden-sm-and-down">
+        <v-btn to="/auth/signup" text>Sign Up</v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <v-content>
@@ -48,19 +100,6 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/"
-        },
-        {
-          icon: "mdi-lock",
-          title: "Private",
-          to: "/private"
-        }
-      ],
-
       title: "MEVN-Skeleton"
     };
   },
