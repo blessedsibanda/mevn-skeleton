@@ -12,14 +12,14 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
+    <v-app-bar color="primary" :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="title" />
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn @click="userAction" text>Users</v-btn>
+        <v-btn to="/users" text>Users</v-btn>
       </v-toolbar-items>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn @click="userAction" text>{{ $auth.loggedIn ? 'Logout' : 'Login' }}</v-btn>

@@ -11,7 +11,7 @@ const passportJwt = require('../middlewares/passportJwt')();
 
 const router = Router();
 
-router.get('/', list);
+router.get('/', passportJwt.authenticate(), list);
 router.get('/:id', getUserById);
 router.patch('/', passportJwt.authenticate(), updateUser);
 router.delete('/', passportJwt.authenticate(), deleteUser);
