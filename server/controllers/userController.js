@@ -3,7 +3,7 @@ const validationHandler = require('../middlewares/validations/validationHandler'
 
 exports.list = async (req, res, next) => {
 	try {
-		const users = await User.find().select('-email');
+		const users = await User.find().select('-email -createdAt -updatedAt');
 		res.json({ users });
 	} catch (e) {
 		next(e);
@@ -32,9 +32,7 @@ exports.updateUser = async (req, res, next) => {
 		const name = req.body.name;
 		const email = req.body.email;
 		if (!name && !email) {
-			const error = new Error(
-				'name or email address (or both) is required',
-			);
+			const error = new Error('name or email address (or both) required');
 			error.statusCode = 400;
 			throw error;
 		}
@@ -43,7 +41,7 @@ exports.updateUser = async (req, res, next) => {
 		if (name) {
 			const existingUser = await User.findOne({ name });
 			if (existingUser) {
-				const error = new Error('Name already taken');
+				const error = new Error('Name already in use');
 				error.statusCode = 403;
 				throw error;
 			} else {
@@ -54,7 +52,7 @@ exports.updateUser = async (req, res, next) => {
 		if (email) {
 			const existingUser = await User.findOne({ email });
 			if (existingUser) {
-				const error = new Error('Email already taken');
+				const error = new Error('Email already in use');
 				error.statusCode = 403;
 				throw error;
 			} else {
@@ -77,7 +75,20 @@ exports.changePassword = async (req, res, next) => {
 		const password = req.body.password;
 		user.password = await user.encryptPassword(password);
 		user = await user.save();
+		user.password = undefined;
 		res.json({ user, message: 'User password updated successfully!' });
+	} catch (e) {
+		next(e);
+	}
+};
+
+exports.deleteUser = async (req, res, next) => {
+	try {
+		let user = await User.findById(req.user.id);
+		await user.delete();
+		res
+			.status(204)
+			.json({ message: 'User account deleted successfully!' });
 	} catch (e) {
 		next(e);
 	}

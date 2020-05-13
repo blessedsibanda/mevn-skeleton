@@ -18,7 +18,9 @@ exports.signup = async (req, res, next) => {
 		user = await user.save();
 
 		const token = jwt.encode({ id: user._id }, config.jwtSecret);
-		await res.status(201).json({ token, user });
+		await res
+			.status(201)
+			.json({ token, user, message: 'Successfully signed up!' });
 	} catch (e) {
 		next(e);
 	}
